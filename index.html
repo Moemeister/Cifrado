@@ -1,0 +1,394 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" lang="es">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="div-container">
+        <center><div class="bloque">
+            <input class="form-control" type="text" name="" id="palabraCifrar" placeholder="Ingrese texto a cifrar" required>
+            <input class="form-control"type="text" name="" id="llave" placeholder="Ingrese llave" required>
+            <button class="btn btn-suc" id="cifrar">Cifrar</button><br><br>
+            <input class="form-control"type="text" id="palabraCifrada"><br><br>
+
+
+            <input class="form-control"type="text" name="" id="palabraDecifrar" placeholder="Ingrese texto a Decifrar">
+            <input class="form-control"type="text" name="" id="llaveD" placeholder="Ingrese llave">
+            <button class="btn btn-suc" id="Decifrar">Descifrar</button><br><br>
+            <input class="form-control"type="text" id="palabraDecifrada"><br><br>
+
+            Usar alfabeto en inglés: <input type="checkbox" id="alfabeto">
+    </div></center>
+
+        </div>
+  <p id="texto">
+
+  </p>
+
+</body>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+
+    var alfabetoES = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+    var alfabetoIN = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+
+
+    var matrizES = [ [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ],
+                     [ 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a' ],
+                     [ 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b' ],
+                     [ 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c' ],
+                     [ 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd' ],
+                     [ 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e' ],
+                     [ 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f' ],
+                     [ 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g' ],
+                     [ 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ],
+                     [ 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ],
+                     [ 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' ],
+                     [ 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k' ],
+                     [ 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l' ],
+                     [ 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' ],
+                     [ 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ' ],
+                     [ 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o' ],
+                     [ 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p' ],
+                     [ 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q' ],
+                     [ 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r' ],
+                     [ 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's' ],
+                     [ 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't' ],
+                     [ 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u' ],
+                     [ 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v' ],
+                     [ 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w' ],
+                     [ 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x' ],
+                     [ 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y' ] ];
+
+    var matrizIN = [ [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ],
+                     [ 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a' ],
+                     [ 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b' ],
+                     [ 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c' ],
+                     [ 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd' ],
+                     [ 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e' ],
+                     [ 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f' ],
+                     [ 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g' ],
+                     [ 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ],
+                     [ 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ],
+                     [ 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' ],
+                     [ 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k' ],
+                     [ 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l' ],
+                     [ 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' ],
+                     [ 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n' ],
+                     [ 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o' ],
+                     [ 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p' ],
+                     [ 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q' ],
+                     [ 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r' ],
+                     [ 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's' ],
+                     [ 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't' ],
+                     [ 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u' ],
+                     [ 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v' ],
+                     [ 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w' ],
+                     [ 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x' ],
+                     [ 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y' ] ];
+
+
+    $("#cifrar").click(function(){
+
+        //Verifica que se llenen todos los campos
+        if( !$("#palabraCifrar").val() && !$("#llave").val() ){
+
+            alert("Debe ingresar palabra a cifrar y una llave");
+
+        //Si se llenaron los campos se realiza el cifrado
+        }else{
+
+            //Función para validar que no sea un espacio en el texto
+            function validarVacio(elemento){
+                return elemento != " ";
+            }
+
+
+            //Se toman los valores del texto a cifrar y la llave de las cajas de texto
+            var entrada = $("#palabraCifrar").val();
+            var llave = $("#llave").val();
+
+
+            //Longitud de texto a cifrar y de la llave
+            var entradaL = entrada.length;
+            var llaveL = llave.length;
+
+
+
+            //Obteniendo valores de cuadros de texto
+            arrayEntrada = entrada.split("");
+            arrayLlave = llave.split("");
+
+
+            //Creando arreglos para cifrar
+            arrayTexto = arrayEntrada.filter(validarVacio);
+            arrayLlave2 = arrayLlave.filter(validarVacio);
+
+
+            //Aquí se guardará el texto que solo contiene la llave, pero de longitud igual al texto a cifrar
+            var arrayLlave3 = [ ];
+
+
+            // ----------------------------------------------    CREAR ARRAY DE LA LONGITUD DE ARRAYTEXTO, LLENARLO CON LOS ELEMENTOS DE LLAVE  ------------------------------------------
+
+            var i = 0;
+            var j = 0;
+
+
+
+            while(i < arrayTexto.length){
+
+
+                if(j >= arrayLlave2.length){
+                    j = 0;
+                }
+
+                arrayLlave3.push(arrayLlave2[j]);
+
+                i++;
+                j++;
+
+            }
+
+            //Indice en alfabeto normal
+            var indexN = 0;
+            //Indice en alfbeto desplazado
+            var indexR = 0;
+
+            //variables para Respuesta y letra a concatenar
+            var res = "";
+            var letra = ' ';
+
+          // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+          //Verifica si i está checkeada la opción del alfabeto en inglés
+          if ( $("#alfabeto").prop('checked')) {
+
+                //alert("Cifrado en inglés");
+
+
+                for (var l = 0; l < arrayLlave3.length; l++) {
+
+
+                    //console.log("Posicion de itereacion: " + l);
+
+                    //console.log("Letra del texto: " + arrayTexto[l]);
+
+                    indexN = alfabetoIN.indexOf(arrayTexto[l]);
+                    //console.log(arrayLlave3[l]);
+                    //console.log("Index de la letra del texto en mi alfabeto: " + indexN );
+                    indexR = alfabetoIN.indexOf(arrayLlave3[l]);
+                    //console.log("Letra en el alfabeto recorrido: " + indexR);
+
+                    letra = alfabetoIN[(indexN+indexR)%26];
+
+                    //console.log("Encriptado: " +  letra);
+
+                    res+=letra;
+
+                }
+
+          } else {
+
+                //alert("Cifrado en español");
+
+                for (var l = 0; l < arrayLlave3.length; l++) {
+
+
+                    //console.log("Posicion de itereacion: " + l);
+
+                    //console.log("Letra del texto: " + arrayTexto[l]);
+
+                    indexN = alfabetoES.indexOf(arrayTexto[l]);
+                    //console.log(arrayLlave3[l]);
+                    //console.log("Index de la letra del texto en mi alfabeto: " + indexN );
+                    indexR = alfabetoES.indexOf(arrayLlave3[l]);
+                    //console.log("Letra en el alfabeto recorrido: " + indexR);
+
+                    letra = alfabetoES[(indexN+indexR)%27];
+
+                    //console.log("Encriptado: " +  letra);
+
+                    res+=letra;
+
+                }
+
+          }
+
+
+          //Nueva variable con la respuesta
+          var cifrado = "";
+          //Texto a cifrar
+          var t = $("#palabraCifrar").val();
+          //Contador
+          var m = 0;
+
+            //Recorre el texto otiginal, si hay un espacio lo concatena a la respuesta, sino concatena la letra de res a la respuesta
+            for (var k = 0; k < t.length; k++) {
+                if(t[k] == " "){
+                    //console.log(k + ": el texto tiene: ESPACIO y la respuesta: " + res[k]);
+                    cifrado+=" ";
+                }else{
+                    //console.log(k + ": el texto tiene: " + t[k] + " y la respuesta: " + res[m]);
+                    cifrado+=res[m];
+                    m+=1;
+                }
+            }
+
+
+          //Colocar palabra cifrada en el input de respuesta
+          $("#palabraCifrada").val(cifrado);
+
+
+        }
+
+
+
+
+    });
+
+  });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("#Decifrar").click(function(){
+
+        var entradaD = $("#palabraDecifrar").val();
+        var llaveD = $("#llaveD").val();
+        var palabraDeci="";
+
+        var t_entradaD = entradaD.length
+        var t_llave = llaveD.length;
+
+        arrayEntradaD = entradaD;
+        arrayllaveD = llaveD;
+        var j=0;
+        if ( $("#alfabeto").prop('checked')) {
+            for (var i = 0; i < t_entradaD; i++) {
+
+                if (arrayEntradaD[i]==" ") {
+                    palabraDeci+=" "
+                    i++;
+                }
+                if (j<t_llave) {
+                    var ascD = (arrayEntradaD[i].charCodeAt(0)-96);
+                    var ascll = (arrayllaveD[j].charCodeAt(0)-96);
+
+                    if ((ascD-ascll)>0) {
+                        palabraDeci+=String.fromCharCode(((ascD-ascll)%26)+97);
+                    }
+                    else{
+                        palabraDeci+=String.fromCharCode(((ascD-ascll+26)%26)+97);
+                    }
+                    j++;
+                }
+
+            // da vuelta a la llave
+                else{
+                    j=0;
+                    var ascD = (arrayEntradaD[i].charCodeAt(0)-96);
+                    var ascll = (arrayllaveD[j].charCodeAt(0)-96);
+
+                    if ((ascD-ascll)>0) {
+                        palabraDeci+=String.fromCharCode(((ascD-ascll)%26)+97);
+                    }
+                    else{
+                        palabraDeci+=String.fromCharCode(((ascD-ascll+26)%26)+97);
+                    }
+                    j++;
+                }
+            }
+        }
+
+
+
+
+        // alfabeto Español
+        else{
+           var alfESP = [  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+
+           for (var i = 0; i < t_entradaD; i++) {
+                if (arrayEntradaD[i]==" ") {
+                    palabraDeci+=" "
+                    i++;
+                }
+                if (j<t_llave) {
+                    if (arrayEntradaD[i].charCodeAt(0)==241) {
+                        var ascD = 14;
+                        var ascll = (arrayllaveD[j].charCodeAt(0)-97);
+                    }
+                    else if (arrayllaveD[j].charCodeAt(0)==241) {
+                        var ascD = arrayEntradaD[i].charCodeAt(0)-97;
+                        var ascll =14;
+                    }
+                    else if(arrayllaveD[j].charCodeAt(0)==241&&arrayEntradaD[i].charCodeAt(0)==241){
+                        var ascD = 14;
+                        var ascll = 14;
+                    }
+                    else if (arrayllaveD[j].charCodeAt(0)-97>13&&arrayEntradaD[i].charCodeAt(0)-97>13) {
+                        var ascD = arrayEntradaD[i].charCodeAt(0)-96;
+                        var ascll = (arrayllaveD[j].charCodeAt(0)-96);
+                    }
+
+                    else if (arrayllaveD[j].charCodeAt(0)-97>13) {
+                        var ascD = arrayEntradaD[i].charCodeAt(0)-97;
+                        var ascll = (arrayllaveD[j].charCodeAt(0)-96);
+                    }
+                    else if(arrayEntradaD[i].charCodeAt(0)-97>13){
+                        var ascD = arrayEntradaD[i].charCodeAt(0)-96;
+                        var ascll = (arrayllaveD[j].charCodeAt(0)-97);
+                    }
+                    else{
+                        var ascD = (arrayEntradaD[i].charCodeAt(0)-97);
+                        var ascll = (arrayllaveD[j].charCodeAt(0)-97);
+                    }
+
+                    if ((ascD-ascll)>0) {
+
+                        palabraDeci+=alfESP[(ascD-ascll)%27];
+                    }
+                    else{
+                        palabraDeci+=alfESP[(ascD-ascll+27)%27];
+                    }
+                    j++;
+                }
+
+            // da vuelta a la llave
+                else{
+                    j=0;
+                    i-=1
+                }
+
+
+           }
+
+        }
+
+
+        $("#palabraDecifrada").val(palabraDeci);
+
+
+});
+  });
+
+</script>
+
+</html>
