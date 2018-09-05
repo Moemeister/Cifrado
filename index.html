@@ -114,6 +114,8 @@
             var entrada = $("#palabraCifrar").val();
             var llave = $("#llave").val();
 
+            var entradaconvert = entrada.toLowerCase();
+            var llaveconvert= llave.toLowerCase();
 
             //Longitud de texto a cifrar y de la llave
             var entradaL = entrada.length;
@@ -122,8 +124,8 @@
 
 
             //Obteniendo valores de cuadros de texto
-            arrayEntrada = entrada.split("");
-            arrayLlave = llave.split("");
+            arrayEntrada = entradaconvert.split("");
+            arrayLlave = llaveconvert.split("");
 
 
             //Creando arreglos para cifrar
@@ -273,13 +275,15 @@
 
         var entradaD = $("#palabraDecifrar").val();
         var llaveD = $("#llaveD").val();
+        var entradaconvertD= entradaD.toLowerCase();
+        var llaveDconvert=llaveD.toLowerCase();
         var palabraDeci="";
 
         var t_entradaD = entradaD.length
         var t_llave = llaveD.length;
 
-        arrayEntradaD = entradaD;
-        arrayllaveD = llaveD;
+        arrayEntradaD = entradaconvertD;
+        arrayllaveD = llaveDconvert;
         var j=0;
         if ( $("#alfabeto").prop('checked')) {
             for (var i = 0; i < t_entradaD; i++) {
